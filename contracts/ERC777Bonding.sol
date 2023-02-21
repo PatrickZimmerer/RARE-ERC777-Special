@@ -8,6 +8,15 @@ import "@openzeppelin/contracts/token/ERC777/ERC777.sol";
 // QUESTION: Is there a way to avoid overriding every single function if you inherrit from 2 contracts which inherit
 //           from the same contract as ERC77 & ERC20Capped => inherit both from ERC20,
 //           also is there a way to avoid filling both the ERC777 and ERC20 constructor with the same variables?
+// ANSWER:
+
+// QUESTION: Do we need to learn all those ERC Standards or is there just a few major ones which we should be aware of
+//           and if so, which should we learn?
+// ANSWER:
+
+// QUESTION: Hardhat vs Foundry, just a quick pros / cons, should I try to learn both when I'm done with a week before it's over?
+//           In general what should I do when finishing a week early?
+// ANSWER:
 
 /// @title A contract for a ERC777 coin which is capped at 100 million token and has a linear bonding curve
 /// @author Patrick Zimmerer
