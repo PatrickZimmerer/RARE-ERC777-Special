@@ -36,6 +36,11 @@ contract ERC777Bonding is Ownable, ERC777, MyGodModeCoin {
         address[] memory _defaultOperators
     ) MyGodModeCoin(_name, _symbol) ERC777(_name, _symbol, _defaultOperators) {}
 
+    /**
+     * @notice calculates the price _amount tokens would cost to buy
+     * @notice as information for the user to know how much eth to send
+     * @notice also a helper to reduce complexity in buyTokens function
+     */
     function calculateBuyingPrice(
         uint256 _amount
     ) public view returns (uint256) {
@@ -47,6 +52,11 @@ contract ERC777Bonding is Ownable, ERC777, MyGodModeCoin {
         return buyingPrice;
     }
 
+    /**
+     * @notice calculates the price _amount tokens would get you when you'd sell them
+     * @notice as information for the user to know how much eth they will get for _amount tokens
+     * @notice also a helper to reduce complexity in _callTokensReceived() / sell function
+     */
     function calculateSellingPrice(
         uint256 _amount
     ) public view returns (uint256) {
@@ -62,6 +72,9 @@ contract ERC777Bonding is Ownable, ERC777, MyGodModeCoin {
         return sellingPrice;
     }
 
+    /**
+     * @notice let's a user buy tokens when he sent the right amount of ETH
+     */
     function buyTokens(uint256 _amount) external payable {
         require(
             msg.value == calculateBuyingPrice(_amount),
