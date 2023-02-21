@@ -8,8 +8,9 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
 
     const name = "ERC777BondingCoin";
     const symbol = "ECC";
+    const defaultOperators = new Array();
 
-    const arguments = [name, symbol];
+    const arguments = [name, symbol, defaultOperators];
 
     const erc777bondingCoin = await deploy("ERC777Bonding", {
         from: deployer,

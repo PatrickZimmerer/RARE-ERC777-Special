@@ -20,6 +20,8 @@ module.exports = {
         hardhat: {
             chainId: 31337,
             blockConfirmations: 1,
+            gas: 2100000,
+            gasPrice: 8000000000,
         },
         goerli: {
             chainId: 5,
@@ -28,7 +30,7 @@ module.exports = {
             accounts: [PRIVATE_KEY],
         },
     },
-    solidity: "0.8.17",
+    solidity: "0.8.18",
     namedAccounts: {
         deployer: {
             default: 0,
