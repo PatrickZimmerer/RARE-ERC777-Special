@@ -4,25 +4,13 @@ pragma solidity 0.8.18;
 import "./MyGodModeCoin.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC777/ERC777.sol";
-
-// QUESTION: Is there a way to avoid overriding every single function if you inherrit from 2 contracts which inherit
-//           from the same contract as ERC77 & ERC20Capped => inherit both from ERC20,
-//           also is there a way to avoid filling both the ERC777 and ERC20 constructor with the same variables?
-// ANSWER:
-
-// QUESTION: Do we need to learn all those ERC Standards or is there just a few major ones which we should be aware of
-//           and if so, which should we learn?
-// ANSWER:
-
-// QUESTION: Hardhat vs Foundry, just a quick pros / cons, should I try to learn both when I'm done with a week before it's over?
-//           In general what should I do when finishing a week early?
-// ANSWER:
+import "@openzeppelin/contracts/token/ERC777/IERC777Recipient.sol";
 
 /// @title A contract for a ERC777 coin which is capped at 100 million token and has a linear bonding curve
 /// @author Patrick Zimmerer
 /// @notice This contract is to demo a simple ERC777 token where you can buy and sell bond to a bonding curve
 /// @dev When deploying you can choose a token name, symbol and a sellingFee in percent which gets set in the constructor
-contract ERC777Bonding is Ownable, ERC777, MyGodModeCoin {
+contract ERC777Bonding is Ownable, ERC777, MyGodModeCoin, IERC777Recipient {
     uint256 public constant SELLING_FEE_IN_PERCENT;
     uint256 public constant BASE_PRICE = 0.0001 ether; // shorthand for 18 zeros
     uint256 public constant INCREASE_PRICE_PER_TOKEN = 0.01 gwei; // shorthand for 9 zeros => 10000000 wei or 0.00000000001 ether
@@ -85,6 +73,25 @@ contract ERC777Bonding is Ownable, ERC777, MyGodModeCoin {
 
     /**
      * ------------- SELL FUNCTION -----------------
+     * @dev Called by an {IERC777} token contract whenever tokens are being
+     * moved or created into a registered account (`to`). The type of operation
+     * is conveyed by `from` being the zero address or not.
+     *
+     * This call occurs _after_ the token contract's state is updated, so
+     * {IERC777-balanceOf}, etc., can be used to query the post-operation state.
+     *
+     * This function may revert to prevent the operation from being executed.
+     */
+    function tokensReceived(
+        address operator,
+        address from,
+        address to,
+        uint256 amount,
+        bytes calldata userData,
+        bytes calldata operatorData
+    ) external {}
+
+    /**
      * @dev Call to.tokensReceived() if the interface is registered. Reverts if the recipient is a contract but
      * tokensReceived() was not registered for the recipient
      * @param operator address operator requesting the transfer
