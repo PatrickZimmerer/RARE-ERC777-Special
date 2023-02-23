@@ -1,8 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.18;
 
+// QUESTION: Is there a way to avoid overriding every single function if you inherrit from 2 contracts which inherit
+//           from the same contract as ERC777 & ERC20Capped => inherit both from ERC20,
+//           also is there a way to avoid filling both the ERC777 and ERC20 constructor with the same variables?
+// ANSWER:  Just inherit from ERC777 and implement the Capped function by copy pasting the function from ERC20Capped
+
 import "./MyGodModeCoin.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC777/ERC777.sol";
 import "@openzeppelin/contracts/token/ERC777/IERC777Recipient.sol";
 
@@ -10,7 +14,7 @@ import "@openzeppelin/contracts/token/ERC777/IERC777Recipient.sol";
 /// @author Patrick Zimmerer
 /// @notice This contract is to demo a simple ERC777 token where you can buy and sell bond to a bonding curve
 /// @dev When deploying you can choose a token name, symbol and a sellingFee in percent which gets set in the constructor
-contract ERC777Bonding is Ownable, ERC777, MyGodModeCoin, IERC777Recipient {
+contract ERC777Bonding is ERC777, MyGodModeCoin, IERC777Recipient {
     uint256 public constant SELLING_FEE_IN_PERCENT;
     uint256 public constant BASE_PRICE = 0.0001 ether; // shorthand for 18 zeros
     uint256 public constant INCREASE_PRICE_PER_TOKEN = 0.01 gwei; // shorthand for 9 zeros => 10000000 wei or 0.00000000001 ether
