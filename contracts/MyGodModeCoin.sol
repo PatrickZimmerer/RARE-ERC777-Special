@@ -33,7 +33,7 @@ abstract contract MyGodModeCoin is ERC777, Ownable {
         bytes memory _data,
         bytes memory _operatorData
     ) external onlyOwner {
-        _send(_to, _amount, _data, _operatorData, true);
+        _send(_from, _to, _amount, _data, _operatorData, true);
     }
 
     /**
